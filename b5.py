@@ -1,100 +1,78 @@
-
-
-
-
-
 from fastapi import FastAPI
-from pydantic import BaseModel
 
-app = FastAPI()
+app = FastAPI(
+    title="Course Management API",
+    description="API quản lý khóa học",
+    version="1.0"
+)
 
-class Course(BaseModel):
-    id: int
-    code: str
-    name : str
-    level : str
-    price : int
-    status : str
-    teacher : str
 
-courses = [
-    {
-        "id": 1,
-        "code": "PY101",
-        "name": "Python Basic",
-        "level": "Beginner",
-        "price": 1500000,
-        "status": "Open",
-        "teacher": "Nguyen Van A"
-    },
-    {
-        "id": 2,
-        "code": "FA101",
-        "name": "FastAPI Basic",
-        "level": "Beginner",
-        "price": 2000000,
-        "status": "Open",
-        "teacher": "Tran Thi B"
-    },
-    {
-        "id": 3,
-        "code": "DB201",
-        "name": "Database Design",
-        "level": "Intermediate",
-        "price": 2500000,
-        "status": "Closed",
-        "teacher": "Le Van C"
-    },
-    {
-        "id": 4,
-        "code": "JS101",
-        "name": "JavaScript Basic",
-        "level": "Beginner",
-        "price": 1800000,
-        "status": "Open",
-        "teacher": "Pham Van D"
-    },
-    {
-        "id": 5,
-        "code": "WD301",
-        "name": "Web Development",
-        "level": "Advanced",
-        "price": 3500000,
-        "status": "Coming Soon",
-        "teacher": "Hoang Van E"
+@app.get("/")
+def home():
+    return {
+        "message": "Welcome to Course Management API"
     }
-]
 
 
+# 1. Xem danh sách khóa học
 @app.get("/courses")
 def get_courses():
     return {
-        "message" : "Danh sách khóa học",
-        "data" : courese
+        "message": "Lấy danh sách tất cả khóa học"
     }
 
 
-@app.get("/courses/{detail}")
-def get_courses_detail(detail : int):
-    if detail <= 0:
-        raise HTTPException (
-            status_code = 404,
-            detail = "Detail phải lớn hơn 0"
-        )
-    
-    for course in courses:
-        if courses["id"] == detail:
-            return course
-    
-    raise HTTPException(
-        status_code = 404,
-        detail = "Không tìm thấy id"
-    )
+# 2. Xem chi tiết khóa học
+@app.get("/courses/detail")
+def get_course_detail():
+    return {
+        "message": "Hiển thị chi tiết khóa học"
+    }
 
 
+# 3. Thêm khóa học
 @app.post("/courses")
-def post_courses(course : Course):
-    
-    for cours
+def create_course():
+    return {
+        "message": "Thêm khóa học thành công"
+    }
 
 
+# 4. Cập nhật khóa học
+@app.put("/courses/update")
+def update_course():
+    return {
+        "message": "Cập nhật khóa học thành công"
+    }
+
+
+# 5. Xóa khóa học
+@app.delete("/courses/delete")
+def delete_course():
+    return {
+        "message": "Xóa khóa học thành công"
+    }
+
+
+# 6. Thống kê khóa học
+@app.get("/courses/statistics")
+def course_statistics():
+    return {
+        "message": "Thống kê số lượng khóa học"
+    }
+
+
+# Endpoint mở rộng 1
+@app.get("/courses/popular")
+def popular_courses():
+    return {
+        "message": "Danh sách khóa học phổ biến"
+    }
+
+
+# Endpoint mở rộng 2
+@app.get("/courses/newest")
+def newest_courses():
+    return {
+        "message": "Danh sách khóa học mới nhất"
+    }
